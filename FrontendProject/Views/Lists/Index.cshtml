@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FrontendProject.Models.ListModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="text-center">
+    <table class="table table-striped">
+        @{
+            var rowCounter = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Tasks" asp-action="Index" asp-route-listId="@item.Id">@item.Name</a>
+                    
+                </td>
+                <td>
+                    <form asp-controller="Lists" asp-action="RemoveList" method="post">
+                        <input type="hidden" id="Id" name="Id" value="@item.Id">
+                        <button asp-action="RemoveList" class="btn btn-primary">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            rowCounter++;
+        }
+    </table>
+    <form asp-controller="Lists" asp-action="NewList" method="post">
+        <label for="fname">New List Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <button asp-action="NewList" class="btn btn-primary">Submit</button>
+    </form>
+</div>

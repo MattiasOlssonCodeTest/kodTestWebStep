@@ -1,0 +1,63 @@
+﻿@model FrontendProject.Models.ListModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="text-center">
+    @Model.Name
+    <table class="table table-striped">
+        @{
+            var rowCounter = 0;
+        }
+        @foreach (var item in Model.TaskModels)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Description
+                </td>
+
+                <td>
+                    <form asp-controller="Tasks" asp-action="EditTask" method="post">
+                        <input type="hidden" id="EdidId" name="Id" value="@item.Id">
+                        <input type="hidden" id="EditListId" name="ListId" value="@Model.Id">
+                        <input type="text" id="editName" name="name" value="@item.Name"><br>
+                        <textarea type="text" id="description" name="description">@item.Description</textarea><br>
+                        <button asp-action="EditTask" class="btn btn-primary">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-controller="Tasks" asp-action="MoveTask" method="post">
+                        <input type="hidden" id="MoveId" name="Id" value="@item.Id">
+                        <input type="hidden" id="MoveListId" name="listId" value="@Model.Id">
+                        <input type="text" id="editName" name="name" value="@Model.Name"><br>
+                        <button asp-action="MoveTask" class="btn btn-primary">Move To List name</button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-controller="Tasks" asp-action="RemoveTask" method="post">
+                        <input type="hidden" id="RemoveId" name="Id" value="@item.Id">
+                        <input type="hidden" id="RemoveListId" name="ListId" value="@Model.Id">
+                        <button asp-action="RemoveTask" class="btn btn-primary">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            rowCounter++;
+        }
+    </table>
+    <form asp-controller="Tasks" asp-action="NewTask" method="post">
+        <label for="name">New Task:</label><br>
+        <input type="text" id="name" name="name">Name<br>
+        <input type="hidden" id="listID" name="listID" value="@Model.Id">
+        <textarea type="text" id="description" name="description">Description</textarea><br>
+        <button asp-action="NewTask" class="btn btn-primary">Submit</button>
+    </form>
+</div>
